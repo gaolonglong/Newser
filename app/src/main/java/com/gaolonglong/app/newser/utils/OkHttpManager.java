@@ -58,8 +58,7 @@ public class OkHttpManager {
         if (!cacheDir.exists()){
             cacheDir.mkdirs();
         }
-        Cache cache = new Cache(cacheDir,cacheSize);
-        return cache;
+        return new Cache(cacheDir,cacheSize);
     }
 
     public void getLoadData(final Activity activity, String url, final NewsModelImpl.OnLoadNewsListListener listener){
@@ -71,9 +70,25 @@ public class OkHttpManager {
          */
         Request request = new Request.Builder()
                 .get()
-                //.addHeader("Cache-Control", "public, max-age=" + 60 * 60)
                 .url(url)
                 .build();
+        /**
+         * okhttp做离线缓存的另一种方法：1.判断网络状况，根据是否有网络给出不同的Request（如下）；2.在OkHttpClient添加cache即可，不需要Interceptor。
+         */
+        /*if (NetworkUtil.isNetworkConnected(activity)){
+            request = new Request.Builder()
+                    .get()
+                    .url(url)
+                    .build();
+            Toast.makeText(activity,"有网络",Toast.LENGTH_SHORT).show();
+        }else {
+            request = new Request.Builder()
+                    .get()
+                    .cacheControl(CacheControl.FORCE_CACHE)
+                    .url(url)
+                    .build();
+            Toast.makeText(activity,"无网络",Toast.LENGTH_SHORT).show();
+        }*/
 
         okHttpClient.newCall(request).enqueue(new Callback() {
 
@@ -92,7 +107,7 @@ public class OkHttpManager {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()){
                     final String result = response.body().string();
-
+                    //打印响应头
                     Headers headers = response.headers();
                     for (int i = 0;i < headers.size();i++){
                         Log.e("headers","name: "+headers.name(i) + " value: " + headers.value(i));
