@@ -1,41 +1,30 @@
 package com.gaolonglong.app.newser.ui.activity;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.gaolonglong.app.newser.R;
-import com.gaolonglong.app.newser.adapter.NewsAdapter;
-import com.gaolonglong.app.newser.bean.NewsBean;
-import com.gaolonglong.app.newser.presenter.NewsPresenter;
-import com.gaolonglong.app.newser.presenter.NewsPresenterImpl;
-import com.gaolonglong.app.newser.view.NewsView;
-import com.google.gson.Gson;
+import com.gaolonglong.app.newser.ui.fragment.ZhiHuListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements NewsView, SwipeRefreshLayout.OnRefreshListener{
+public class MainActivity extends AppCompatActivity{
 
-    private RecyclerView recyclerView;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private FloatingActionButton fab;
-    private NewsAdapter newsAdapter;
-    private List<NewsBean.StoriesBean> storiesBeanList;
-    private NewsPresenter newsPresenter;
-    private Gson gson;
-    private int lastVisibleItemPos;
-    private int page;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private List<Fragment> fragmentList;
+    private String[] titles = {"知乎","果壳","豆瓣"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements NewsView, SwipeRe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,100 +43,40 @@ public class MainActivity extends AppCompatActivity implements NewsView, SwipeRe
             }
         });
 
-        gson = new Gson();
-        newsPresenter = new NewsPresenterImpl(this);
         initView();
-
-        onLoadRefreshData();
 
     }
 
     private void initView() {
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(android.R.color.background_dark));
-        swipeRefreshLayout.setOnRefreshListener(this);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        if (fragmentList == null){
+            fragmentList = new ArrayList<>();
+        }
+        for (int i = 0;i < titles.length;i++){
+            fragmentList.add(new ZhiHuListFragment());
+        }
+
+        viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPos + 1 == newsAdapter.getItemCount()){
-                    page++;
-                    onLoadMoreData();
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            newsAdapter.notifyDataSetChanged();
-                        }
-                    }, 1000);
-                }
+            public Fragment getItem(int position) {
+                return fragmentList.get(position);
             }
 
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                // 隐藏或者显示fab
-                if(dy > 0) {
-                    fab.hide();
-                } else {
-                    fab.show();
-                }
-                lastVisibleItemPos = layoutManager.findLastVisibleItemPosition();
+            public int getCount() {
+                return fragmentList.size();
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return titles[position];
             }
         });
 
-    }
+        tabLayout.setupWithViewPager(viewPager);
 
-    private void onLoadRefreshData() {
-        page = 0;
-        newsPresenter.loadNews(this, page);
-    }
-
-    private void onLoadMoreData() {
-        newsPresenter.loadNews(this, page);
-    }
-
-    @Override
-    public void onRefresh() {
-        onLoadRefreshData();
-    }
-
-    @Override
-    public void addNews(String result) {
-        if (storiesBeanList == null){
-            storiesBeanList = new ArrayList<>();
-        }
-        NewsBean newsBean = gson.fromJson(result, NewsBean.class);
-        if (page == 0){
-            storiesBeanList.clear();
-        }
-        storiesBeanList.addAll(newsBean.getStories());
-
-        if (page == 0){
-            newsAdapter = new NewsAdapter(this,storiesBeanList);
-            recyclerView.setAdapter(newsAdapter);
-        }
-    }
-
-    @Override
-    public void showLoading() {
-        swipeRefreshLayout.setRefreshing(true);
-    }
-
-    @Override
-    public void hideLoading() {
-        swipeRefreshLayout.setRefreshing(false);
-    }
-
-    @Override
-    public void showErrorMsg(String msg) {
-        Snackbar.make(recyclerView,msg,Snackbar.LENGTH_LONG).show();
     }
 
     @Override
