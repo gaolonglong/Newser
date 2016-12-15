@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements ZhiHuFragment.OnF
         if (fragmentList == null){
             fragmentList = new ArrayList<>();
         }
-        for (int i = 0;i < titles.length;i++){
+        for (String title : titles){
             fragmentList.add(new ZhiHuFragment());
         }
 
