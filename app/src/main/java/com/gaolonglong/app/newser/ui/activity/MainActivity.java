@@ -14,15 +14,16 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.gaolonglong.app.newser.R;
-import com.gaolonglong.app.newser.ui.fragment.ZhiHuListFragment;
+import com.gaolonglong.app.newser.ui.fragment.ZhiHuFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements ZhiHuFragment.OnFabShowListener {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private FloatingActionButton fab;
     private List<Fragment> fragmentList;
     private String[] titles = {"知乎","果壳","豆瓣"};
 
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity{
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity{
             fragmentList = new ArrayList<>();
         }
         for (int i = 0;i < titles.length;i++){
-            fragmentList.add(new ZhiHuListFragment());
+            fragmentList.add(new ZhiHuFragment());
         }
 
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -76,7 +77,15 @@ public class MainActivity extends AppCompatActivity{
         });
 
         tabLayout.setupWithViewPager(viewPager);
+    }
 
+    @Override
+    public void isShow(boolean show) {
+        if (show){
+            fab.show();
+        }else {
+            fab.hide();
+        }
     }
 
     @Override
