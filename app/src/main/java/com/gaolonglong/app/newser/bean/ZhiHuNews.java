@@ -6,7 +6,7 @@ import java.util.List;
  * Created by gaohailong on 2016/11/24.
  */
 
-public class NewsBean {
+public class ZhiHuNews {
 
     /**
      * date : 20161128

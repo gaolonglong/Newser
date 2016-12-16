@@ -7,5 +7,5 @@ import android.app.Activity;
  */
 
 public interface NewsPresenter {
-    void loadNews(Activity activity, int indexPage);
+    void loadNews(Activity activity, String type, int indexPage);
 }

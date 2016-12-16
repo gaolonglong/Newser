@@ -12,7 +12,7 @@ import android.widget.ImageView;
 
 import com.gaolonglong.app.newser.R;
 import com.bumptech.glide.Glide;
-import com.gaolonglong.app.newser.bean.NewsDetailBean;
+import com.gaolonglong.app.newser.bean.ZhiHuDetailNews;
 import com.gaolonglong.app.newser.presenter.NewsPresenter;
 import com.gaolonglong.app.newser.presenter.NewsPresenterImpl;
 import com.gaolonglong.app.newser.utils.BodyUtil;
@@ -23,7 +23,7 @@ import com.google.gson.Gson;
  * Created by gaohailong on 2016/12/5.
  */
 
-public class ZhiHuNewsDetailActivity extends AppCompatActivity implements NewsView {
+public class ZhiHuDetailActivity extends AppCompatActivity implements NewsView {
 
     private NewsPresenter newsPresenter;
     private Gson gson;
@@ -66,7 +66,7 @@ public class ZhiHuNewsDetailActivity extends AppCompatActivity implements NewsVi
 
     private void onLoadNewsDetail() {
         int id = getIntent().getIntExtra("id", 0);
-        newsPresenter.loadNews(this,id);
+        newsPresenter.loadNews(this, "zhihu", id);
     }
 
     @Override
@@ -76,13 +76,13 @@ public class ZhiHuNewsDetailActivity extends AppCompatActivity implements NewsVi
 
     @Override
     public void addNews(String result) {
-        NewsDetailBean newsDetailBean = gson.fromJson(result, NewsDetailBean.class);
+        ZhiHuDetailNews zhiHuDetailNews = gson.fromJson(result, ZhiHuDetailNews.class);
         Glide.with(this)
-                .load(newsDetailBean.getImage())
+                .load(zhiHuDetailNews.getImage())
                 .into(headImage);
-        collapsingToolbar.setTitle(newsDetailBean.getTitle());
+        collapsingToolbar.setTitle(zhiHuDetailNews.getTitle());
 
-        String body = BodyUtil.convertBody(newsDetailBean.getBody());
+        String body = BodyUtil.convertBody(zhiHuDetailNews.getBody());
         webView.loadDataWithBaseURL("x-data://base", body, "text/html", "utf-8", null);
     }
 
