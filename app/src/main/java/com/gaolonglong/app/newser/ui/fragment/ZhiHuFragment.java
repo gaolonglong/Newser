@@ -1,9 +1,9 @@
 package com.gaolonglong.app.newser.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -29,17 +29,23 @@ import java.util.List;
  * Created by gaohailong on 2016/12/14.
  */
 
-public class ZhiHuListFragment extends Fragment implements NewsView, SwipeRefreshLayout.OnRefreshListener{
+public class ZhiHuFragment extends Fragment implements NewsView, SwipeRefreshLayout.OnRefreshListener{
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private FloatingActionButton fab;
     private NewsAdapter newsAdapter;
     private List<NewsBean.StoriesBean> storiesBeanList;
     private NewsPresenter newsPresenter;
     private Gson gson;
     private int lastVisibleItemPos;
     private int page;
+    private OnFabShowListener onFabShowListener;
+
+    @Override
+    public void onAttach(Context context) {
+        onFabShowListener = (OnFabShowListener) context;
+        super.onAttach(context);
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,8 +96,10 @@ public class ZhiHuListFragment extends Fragment implements NewsView, SwipeRefres
                 // 隐藏或者显示fab
                 if(dy > 0) {
                     //fab.hide();
+                    onFabShowListener.isShow(false);
                 } else {
                     //fab.show();
+                    onFabShowListener.isShow(true);
                 }
                 lastVisibleItemPos = layoutManager.findLastVisibleItemPosition();
             }
@@ -144,6 +152,10 @@ public class ZhiHuListFragment extends Fragment implements NewsView, SwipeRefres
     @Override
     public void showErrorMsg(String msg) {
         Snackbar.make(recyclerView,msg,Snackbar.LENGTH_LONG).show();
+    }
+
+    public interface OnFabShowListener{
+        void isShow(boolean show);
     }
 
 }
