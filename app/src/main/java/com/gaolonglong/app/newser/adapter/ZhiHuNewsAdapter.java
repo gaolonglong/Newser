@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.gaolonglong.app.newser.R;
-import com.gaolonglong.app.newser.bean.NewsBean;
-import com.gaolonglong.app.newser.ui.activity.ZhiHuNewsDetailActivity;
+import com.gaolonglong.app.newser.bean.ZhiHuNews;
+import com.gaolonglong.app.newser.ui.activity.ZhiHuDetailActivity;
 
 import java.util.List;
 
@@ -21,15 +21,15 @@ import java.util.List;
  * Created by gaohailong on 2016/11/30.
  */
 
-public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ZhiHuNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context;
-    private List<NewsBean.StoriesBean> storiesBeanList;
+    private List<ZhiHuNews.StoriesBean> storiesBeanList;
     private LayoutInflater inflater;
     private static final int TYPE_NORMAL = 0;
     private static final int TYPE_FOOTER = 1;
 
-    public NewsAdapter(Context context, List<NewsBean.StoriesBean> storiesBeanList) {
+    public ZhiHuNewsAdapter(Context context, List<ZhiHuNews.StoriesBean> storiesBeanList) {
         this.context = context;
         this.storiesBeanList = storiesBeanList;
         inflater = LayoutInflater.from(context);
@@ -69,7 +69,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (TYPE_FOOTER == viewType){
             return new FooterViewHolder(inflater.inflate(R.layout.footer_layout,parent,false));
         }else if (TYPE_NORMAL == viewType){
-            return new ItemViewHolder(inflater.inflate(R.layout.news_item,parent,false));
+            return new ItemViewHolder(inflater.inflate(R.layout.zhihu_news_item,parent,false));
         }
         return null;
     }
@@ -85,7 +85,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, ZhiHuNewsDetailActivity.class);
+                    Intent intent = new Intent(context, ZhiHuDetailActivity.class);
                     intent.putExtra("id",storiesBeanList.get(position).getId());
                     context.startActivity(intent);
                 }

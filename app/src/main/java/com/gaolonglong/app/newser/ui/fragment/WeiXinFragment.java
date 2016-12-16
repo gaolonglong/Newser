@@ -15,8 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gaolonglong.app.newser.R;
-import com.gaolonglong.app.newser.adapter.ZhiHuNewsAdapter;
-import com.gaolonglong.app.newser.bean.ZhiHuNews;
+import com.gaolonglong.app.newser.adapter.WeiXinNewsAdapter;
+import com.gaolonglong.app.newser.bean.WeiXinNews;
 import com.gaolonglong.app.newser.presenter.NewsPresenter;
 import com.gaolonglong.app.newser.presenter.NewsPresenterImpl;
 import com.gaolonglong.app.newser.view.NewsView;
@@ -26,15 +26,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by gaohailong on 2016/12/14.
+ * Created by gaohailong on 2016/12/16.
  */
 
-public class ZhiHuFragment extends Fragment implements NewsView, SwipeRefreshLayout.OnRefreshListener{
+public class WeiXinFragment extends Fragment implements NewsView, SwipeRefreshLayout.OnRefreshListener {
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private ZhiHuNewsAdapter zhiHuNewsAdapter;
-    private List<ZhiHuNews.StoriesBean> storiesBeanList;
+    private WeiXinNewsAdapter weiXinNewsAdapter;
+    private List<WeiXinNews.NewslistBean> weixinNewsList;
     private NewsPresenter newsPresenter;
     private Gson gson;
     private int lastVisibleItemPos;
@@ -44,7 +44,7 @@ public class ZhiHuFragment extends Fragment implements NewsView, SwipeRefreshLay
 
     @Override
     public void onAttach(Context context) {
-        onFabShowListener = (OnFabShowListener) context;
+        //onFabShowListener = (OnFabShowListener) context;
         super.onAttach(context);
     }
 
@@ -52,7 +52,7 @@ public class ZhiHuFragment extends Fragment implements NewsView, SwipeRefreshLay
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        type = "zhihu";
+        type = "weixin";
         gson = new Gson();
         newsPresenter = new NewsPresenterImpl(this);
     }
@@ -79,14 +79,14 @@ public class ZhiHuFragment extends Fragment implements NewsView, SwipeRefreshLay
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
 
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPos + 1 == zhiHuNewsAdapter.getItemCount()){
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPos + 1 == weiXinNewsAdapter.getItemCount()){
                     page++;
                     onLoadMoreData();
 
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            zhiHuNewsAdapter.notifyDataSetChanged();
+                            weiXinNewsAdapter.notifyDataSetChanged();
                         }
                     }, 1000);
                 }
@@ -98,10 +98,10 @@ public class ZhiHuFragment extends Fragment implements NewsView, SwipeRefreshLay
                 // 隐藏或者显示fab
                 if(dy > 0) {
                     //fab.hide();
-                    onFabShowListener.isShow(false);
+                    //onFabShowListener.isShow(false);
                 } else {
                     //fab.show();
-                    onFabShowListener.isShow(true);
+                    //onFabShowListener.isShow(true);
                 }
                 lastVisibleItemPos = layoutManager.findLastVisibleItemPosition();
             }
@@ -111,7 +111,7 @@ public class ZhiHuFragment extends Fragment implements NewsView, SwipeRefreshLay
     }
 
     private void onLoadRefreshData() {
-        page = 0;
+        page = 1;
         newsPresenter.loadNews(getActivity(), type, page);
     }
 
@@ -126,18 +126,18 @@ public class ZhiHuFragment extends Fragment implements NewsView, SwipeRefreshLay
 
     @Override
     public void addNews(String result) {
-        if (storiesBeanList == null){
-            storiesBeanList = new ArrayList<>();
+        if (weixinNewsList == null){
+            weixinNewsList = new ArrayList<>();
         }
-        ZhiHuNews zhiHuNews = gson.fromJson(result, ZhiHuNews.class);
-        if (page == 0){
-            storiesBeanList.clear();
+        WeiXinNews weiXinNews = gson.fromJson(result, WeiXinNews.class);
+        if (page == 1){
+            weixinNewsList.clear();
         }
-        storiesBeanList.addAll(zhiHuNews.getStories());
+        weixinNewsList.addAll(weiXinNews.getNewslist());
 
-        if (page == 0){
-            zhiHuNewsAdapter = new ZhiHuNewsAdapter(getContext(),storiesBeanList);
-            recyclerView.setAdapter(zhiHuNewsAdapter);
+        if (page == 1){
+            weiXinNewsAdapter = new WeiXinNewsAdapter(getContext(),weixinNewsList);
+            recyclerView.setAdapter(weiXinNewsAdapter);
         }
     }
 
@@ -159,5 +159,4 @@ public class ZhiHuFragment extends Fragment implements NewsView, SwipeRefreshLay
     public interface OnFabShowListener{
         void isShow(boolean show);
     }
-
 }

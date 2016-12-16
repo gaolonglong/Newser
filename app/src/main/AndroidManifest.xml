@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.ZhiHuNewsDetailActivity"
+            android:name=".ui.activity.ZhiHuDetailActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName="com.gaolonglong.app.newser.ui.activity.MainActivity">
             <meta-data

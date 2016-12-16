@@ -2,7 +2,7 @@ package com.gaolonglong.app.newser.presenter;
 
 import android.app.Activity;
 
-import com.gaolonglong.app.newser.api.API;
+import com.gaolonglong.app.newser.api.NewsAPI;
 import com.gaolonglong.app.newser.model.NewsModel;
 import com.gaolonglong.app.newser.model.NewsModelImpl;
 import com.gaolonglong.app.newser.utils.DateUtil;
@@ -23,17 +23,30 @@ public class NewsPresenterImpl implements NewsPresenter,NewsModelImpl.OnLoadNews
     }
 
     @Override
-    public void loadNews(Activity activity, int indexPage) {
-        if (indexPage == 0){
-            newsView.showLoading();
-            newsModel.loadNews(activity, API.ZHIHU_LATEST_API,this);
-        }else if (indexPage > 1000000){
-            newsView.showLoading();
-            newsModel.loadNews(activity,API.ZHIHU_NEWS_DETAIL + indexPage,this);
-        }else {
-            String date = DateUtil.getDate(indexPage - 1);
-            newsModel.loadNews(activity,API.ZHIHU_BEFORE_API + date,this);
+    public void loadNews(Activity activity, String type, int indexPage) {
+        switch (type){
+            case "zhihu":
+                if (indexPage == 0){
+                    newsView.showLoading();
+                    newsModel.loadNews(activity, NewsAPI.ZHIHU_LATEST_NEWS,this);
+                }else if (indexPage > 1000000){
+                    newsView.showLoading();
+                    newsModel.loadNews(activity, NewsAPI.ZHIHU_NEWS_DETAIL + indexPage,this);
+                }else {
+                    String date = DateUtil.getDate(indexPage - 1);
+                    newsModel.loadNews(activity, NewsAPI.ZHIHU_HISTORY_NEWS + date,this);
+                }
+                break;
+            case "weixin":
+                if (indexPage == 1){
+                    newsView.showLoading();
+                }
+                newsModel.loadNews(activity, NewsAPI.WEIXIN_NEWS + indexPage,this);
+                break;
+            case "douban":
+                break;
         }
+
     }
 
     @Override

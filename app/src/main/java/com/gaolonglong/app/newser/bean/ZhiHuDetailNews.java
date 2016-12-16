@@ -6,7 +6,7 @@ import java.util.List;
  * Created by gaohailong on 2016/12/7.
  */
 
-public class NewsDetailBean {
+public class ZhiHuDetailNews {
 
     /**
      * body : <div class="main-wrap content-wrap">

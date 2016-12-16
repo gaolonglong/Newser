@@ -9,12 +9,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.gaolonglong.app.newser.R;
+import com.gaolonglong.app.newser.ui.fragment.WeiXinFragment;
 import com.gaolonglong.app.newser.ui.fragment.ZhiHuFragment;
 
 import java.util.ArrayList;
@@ -26,7 +26,8 @@ public class MainActivity extends AppCompatActivity implements ZhiHuFragment.OnF
     private ViewPager viewPager;
     private FloatingActionButton fab;
     private List<Fragment> fragmentList;
-    private String[] titles = {"知乎","果壳","豆瓣"};
+    private String[] titles = {"知乎","微信","豆瓣"};
+    private Fragment[] fragments = {new ZhiHuFragment(),new WeiXinFragment(),new WeiXinFragment()};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +57,8 @@ public class MainActivity extends AppCompatActivity implements ZhiHuFragment.OnF
         if (fragmentList == null){
             fragmentList = new ArrayList<>();
         }
-        for (String title : titles){
-            fragmentList.add(new ZhiHuFragment());
+        for (Fragment fragment : fragments){
+            fragmentList.add(fragment);
         }
 
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
