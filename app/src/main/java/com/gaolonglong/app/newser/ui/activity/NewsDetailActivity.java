@@ -1,11 +1,15 @@
 package com.gaolonglong.app.newser.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -23,7 +27,7 @@ import com.google.gson.Gson;
  * Created by gaohailong on 2016/12/5.
  */
 
-public class ZhiHuDetailActivity extends AppCompatActivity implements NewsView {
+public class NewsDetailActivity extends AppCompatActivity implements NewsView {
 
     private NewsPresenter newsPresenter;
     private Gson gson;
@@ -35,17 +39,28 @@ public class ZhiHuDetailActivity extends AppCompatActivity implements NewsView {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.zhihu_detail_layout);
+        setContentView(R.layout.news_detail_layout);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        gson = new Gson();
-        newsPresenter = new NewsPresenterImpl(this);
         initView();
 
-        onLoadNewsDetail();
+        Intent intent = getIntent();
+        int id = intent.getIntExtra("id", 0);
+
+        if (id != 0){
+            gson = new Gson();
+            newsPresenter = new NewsPresenterImpl(this);
+            onLoadNewsDetail(id);
+        }else {
+            String title = intent.getStringExtra("title");
+            String picUrl = intent.getStringExtra("picUrl");
+            String url = intent.getStringExtra("url");
+
+            addNews(title,picUrl,url);
+        }
 
     }
 
@@ -64,14 +79,21 @@ public class ZhiHuDetailActivity extends AppCompatActivity implements NewsView {
         webView.getSettings().setAppCacheEnabled(false);
     }
 
-    private void onLoadNewsDetail() {
-        int id = getIntent().getIntExtra("id", 0);
+    private void addNews(String title, String picUrl, String url) {
+        Glide.with(this)
+                .load(picUrl)
+                .into(headImage);
+        collapsingToolbar.setTitle(title);
+        webView.loadUrl(url);
+    }
+
+    private void onLoadNewsDetail(int id) {
         newsPresenter.loadNews(this, "zhihu", id);
     }
 
     @Override
     public void showLoading() {
-
+        swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
@@ -88,11 +110,36 @@ public class ZhiHuDetailActivity extends AppCompatActivity implements NewsView {
 
     @Override
     public void hideLoading() {
-
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void showErrorMsg(String msg) {
-
+        Snackbar.make(webView,msg,Snackbar.LENGTH_LONG).show();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }else if (id == android.R.id.home){
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }

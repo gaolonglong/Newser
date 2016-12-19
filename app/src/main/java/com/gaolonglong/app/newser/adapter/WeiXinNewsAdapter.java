@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.gaolonglong.app.newser.R;
 import com.gaolonglong.app.newser.bean.WeiXinNews;
-import com.gaolonglong.app.newser.ui.activity.ZhiHuDetailActivity;
+import com.gaolonglong.app.newser.ui.activity.NewsDetailActivity;
 
 import java.util.List;
 
@@ -91,7 +91,9 @@ public class WeiXinNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, ZhiHuDetailActivity.class);
+                    Intent intent = new Intent(context, NewsDetailActivity.class);
+                    intent.putExtra("title",weixinNewsList.get(position).getTitle());
+                    intent.putExtra("picUrl",weixinNewsList.get(position).getPicUrl());
                     intent.putExtra("url",weixinNewsList.get(position).getUrl());
                     context.startActivity(intent);
                 }
