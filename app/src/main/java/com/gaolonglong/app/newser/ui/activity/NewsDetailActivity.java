@@ -27,7 +27,7 @@ import com.google.gson.Gson;
  * Created by gaohailong on 2016/12/5.
  */
 
-public class NewsDetailActivity extends AppCompatActivity implements NewsView {
+public class NewsDetailActivity extends AppCompatActivity implements NewsView, SwipeRefreshLayout.OnRefreshListener {
 
     private NewsPresenter newsPresenter;
     private Gson gson;
@@ -35,6 +35,10 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsView {
     private SwipeRefreshLayout swipeRefreshLayout;
     private WebView webView;
     private ImageView headImage;
+    private int id;
+    private String title;
+    private String picUrl;
+    private String url;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,16 +52,16 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsView {
         initView();
 
         Intent intent = getIntent();
-        int id = intent.getIntExtra("id", 0);
+        id = intent.getIntExtra("id", 0);
 
         if (id != 0){
             gson = new Gson();
             newsPresenter = new NewsPresenterImpl(this);
             onLoadNewsDetail(id);
         }else {
-            String title = intent.getStringExtra("title");
-            String picUrl = intent.getStringExtra("picUrl");
-            String url = intent.getStringExtra("url");
+            title = intent.getStringExtra("title");
+            picUrl = intent.getStringExtra("picUrl");
+            url = intent.getStringExtra("url");
 
             addNews(title,picUrl,url);
         }
@@ -68,6 +72,7 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsView {
         collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(this);
         headImage = (ImageView) findViewById(R.id.head_image);
 
         webView = (WebView) findViewById(R.id.web_view);
@@ -80,11 +85,15 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsView {
     }
 
     private void addNews(String title, String picUrl, String url) {
+        showLoading();
+
         Glide.with(this)
                 .load(picUrl)
                 .into(headImage);
         collapsingToolbar.setTitle(title);
         webView.loadUrl(url);
+
+        hideLoading();
     }
 
     private void onLoadNewsDetail(int id) {
@@ -92,8 +101,12 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsView {
     }
 
     @Override
-    public void showLoading() {
-        swipeRefreshLayout.setRefreshing(true);
+    public void onRefresh() {
+        if (id != 0){
+            onLoadNewsDetail(id);
+        }else {
+            addNews(title, picUrl, url);
+        }
     }
 
     @Override
@@ -106,6 +119,11 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsView {
 
         String body = BodyUtil.convertBody(zhiHuDetailNews.getBody());
         webView.loadDataWithBaseURL("x-data://base", body, "text/html", "utf-8", null);
+    }
+
+    @Override
+    public void showLoading() {
+        swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
@@ -141,5 +159,4 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsView {
 
         return super.onOptionsItemSelected(item);
     }
-
 }
