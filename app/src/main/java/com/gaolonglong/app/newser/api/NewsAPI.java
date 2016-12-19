@@ -15,4 +15,9 @@ public class NewsAPI {
      * 微信精选api
      */
     public static final String WEIXIN_NEWS = "http://api.tianapi.com/wxnew/?key=a54000546301b5bf55cc3c3f50ca7957&num=15&page=";
+    public static final String WEIXIN_RANDOM_NEWS = "http://api.tianapi.com/wxnew/?key=a54000546301b5bf55cc3c3f50ca7957&num=15&rand=1";
+    /**
+     * 豆瓣api
+     */
+    public static final String DOUBAN_NEWS = "https://moment.douban.com/api/stream/date/";
 }

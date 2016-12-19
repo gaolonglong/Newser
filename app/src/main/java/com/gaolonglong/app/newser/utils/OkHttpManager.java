@@ -52,7 +52,7 @@ public class OkHttpManager {
 
     private Cache getCacheConfig(){
         int cacheSize = 10 * 1024 * 1024;
-        String cachePath = Environment.getExternalStorageDirectory().getPath() + "/mvp" + "/cache";
+        String cachePath = Environment.getExternalStorageDirectory().getPath() + "/newser" + "/cache";
 
         File cacheDir = new File(cachePath);
         if (!cacheDir.exists()){

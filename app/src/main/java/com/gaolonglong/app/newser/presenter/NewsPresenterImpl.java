@@ -41,9 +41,13 @@ public class NewsPresenterImpl implements NewsPresenter,NewsModelImpl.OnLoadNews
                 if (indexPage == 1){
                     newsView.showLoading();
                 }
-                newsModel.loadNews(activity, NewsAPI.WEIXIN_NEWS + indexPage,this);
+                newsModel.loadNews(activity, NewsAPI.WEIXIN_NEWS + indexPage, this);
                 break;
             case "douban":
+                if (indexPage == 1){
+                    newsView.showLoading();
+                }
+                newsModel.loadNews(activity, NewsAPI.DOUBAN_NEWS + indexPage, this);
                 break;
         }
 
