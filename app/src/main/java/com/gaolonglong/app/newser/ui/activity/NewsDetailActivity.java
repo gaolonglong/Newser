@@ -77,11 +77,19 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsView, S
 
         webView = (WebView) findViewById(R.id.web_view);
         webView.setScrollbarFadingEnabled(true);
-        webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(false);
-        webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webView.getSettings().setJavaScriptEnabled(true);
+        //设置缓存模式
+        webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        // 开启DOM storage API 功能
         webView.getSettings().setDomStorageEnabled(true);
-        webView.getSettings().setAppCacheEnabled(false);
+        // 开启database storage API功能
+        webView.getSettings().setDatabaseEnabled(true);
+
+        String webViewCachePath = getFilesDir().getAbsolutePath() + "/webview_cache";
+        webView.getSettings().setAppCacheEnabled(true);
+        webView.getSettings().setAppCachePath(webViewCachePath);
+
     }
 
     private void addNews(String title, String picUrl, String url) {
