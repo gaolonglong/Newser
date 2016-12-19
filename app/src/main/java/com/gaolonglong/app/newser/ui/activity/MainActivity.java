@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.gaolonglong.app.newser.R;
+import com.gaolonglong.app.newser.ui.fragment.DouBanFragment;
 import com.gaolonglong.app.newser.ui.fragment.WeiXinFragment;
 import com.gaolonglong.app.newser.ui.fragment.ZhiHuFragment;
 
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements ZhiHuFragment.OnF
     private FloatingActionButton fab;
     private List<Fragment> fragmentList;
     private String[] titles = {"知乎","微信","豆瓣"};
-    private Fragment[] fragments = {new ZhiHuFragment(),new WeiXinFragment(),new WeiXinFragment()};
+    private Fragment[] fragments = {new ZhiHuFragment(),new WeiXinFragment(),new DouBanFragment()};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -33,7 +33,7 @@ public class NewsPresenterImpl implements NewsPresenter,NewsModelImpl.OnLoadNews
                     newsView.showLoading();
                     newsModel.loadNews(activity, NewsAPI.ZHIHU_NEWS_DETAIL + indexPage,this);
                 }else {
-                    String date = DateUtil.getDate(indexPage - 1);
+                    String date = DateUtil.getDate(true, indexPage - 1);
                     newsModel.loadNews(activity, NewsAPI.ZHIHU_HISTORY_NEWS + date,this);
                 }
                 break;
@@ -44,10 +44,10 @@ public class NewsPresenterImpl implements NewsPresenter,NewsModelImpl.OnLoadNews
                 newsModel.loadNews(activity, NewsAPI.WEIXIN_NEWS + indexPage, this);
                 break;
             case "douban":
-                if (indexPage == 1){
+                if (indexPage == 0){
                     newsView.showLoading();
                 }
-                newsModel.loadNews(activity, NewsAPI.DOUBAN_NEWS + indexPage, this);
+                newsModel.loadNews(activity, NewsAPI.DOUBAN_NEWS + DateUtil.getDate(false, indexPage), this);
                 break;
         }
 
