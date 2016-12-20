@@ -18,10 +18,10 @@
 
         <ImageView
             android:id="@+id/image"
-            android:src="@drawable/image"
+            android:src="@drawable/douban_default"
             android:scaleType="centerCrop"
-            android:layout_width="85dp"
-            android:layout_height="75dp" />
+            android:layout_width="78dp"
+            android:layout_height="65dp" />
 
         <LinearLayout
             android:orientation="vertical"
@@ -32,21 +32,22 @@
             <TextView
                 android:id="@+id/title"
                 android:text="装逼成功是怎样一番体验？装逼成功是怎样一番体验？"
+                android:textColor="#333333"
                 android:maxLines="2"
                 android:ellipsize="end"
-                android:lineSpacingExtra="3dp"
+                android:lineSpacingExtra="2dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/description"
-                android:text="装逼成功是怎样一番体验？装逼成功是怎样一番体验？"
+                android:text="装逼成功是怎样一番体验？装逼成功是怎样一番体验？装逼成功是怎样一番体验？"
                 android:maxLines="2"
                 android:ellipsize="end"
-                android:layout_marginTop="8dp"
-                android:textSize="12sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:gravity="bottom"
+                android:textSize="11sp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
         </LinearLayout>
 

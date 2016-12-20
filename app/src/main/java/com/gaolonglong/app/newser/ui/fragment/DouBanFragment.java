@@ -16,9 +16,7 @@ import android.view.ViewGroup;
 
 import com.gaolonglong.app.newser.R;
 import com.gaolonglong.app.newser.adapter.DouBanNewsAdapter;
-import com.gaolonglong.app.newser.adapter.WeiXinNewsAdapter;
 import com.gaolonglong.app.newser.bean.DouBanNews;
-import com.gaolonglong.app.newser.bean.WeiXinNews;
 import com.gaolonglong.app.newser.presenter.NewsPresenter;
 import com.gaolonglong.app.newser.presenter.NewsPresenterImpl;
 import com.gaolonglong.app.newser.view.NewsView;
@@ -132,16 +130,11 @@ public class DouBanFragment extends Fragment implements NewsView, SwipeRefreshLa
             doubanNewsList = new ArrayList<>();
         }
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                DouBanNews douBanNews = gson.fromJson(result, DouBanNews.class);
-                if (page == 0){
-                    doubanNewsList.clear();
-                }
-                doubanNewsList.addAll(douBanNews.getPosts());
-            }
-        }).start();
+        DouBanNews douBanNews = gson.fromJson(result, DouBanNews.class);
+        if (page == 0){
+            doubanNewsList.clear();
+        }
+        doubanNewsList.addAll(douBanNews.getPosts());
 
         if (page == 0){
             douBanNewsAdapter = new DouBanNewsAdapter(getContext(),doubanNewsList);

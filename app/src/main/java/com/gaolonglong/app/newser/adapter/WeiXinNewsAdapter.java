@@ -83,10 +83,12 @@ public class WeiXinNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (holder instanceof WeiXinNewsAdapter.ItemViewHolder){
             Glide.with(context)
                     .load(weixinNewsList.get(position).getPicUrl())
+                    .placeholder(R.drawable.douban_default)
+                    .error(R.drawable.douban_default)
                     .into(((WeiXinNewsAdapter.ItemViewHolder) holder).image);
-            ((WeiXinNewsAdapter.ItemViewHolder) holder).title.setText(weixinNewsList.get(position).getTitle());
-            ((WeiXinNewsAdapter.ItemViewHolder) holder).author.setText(weixinNewsList.get(position).getDescription());
-            ((WeiXinNewsAdapter.ItemViewHolder) holder).date.setText(weixinNewsList.get(position).getCtime());
+            ((ItemViewHolder) holder).title.setText(weixinNewsList.get(position).getTitle());
+            ((ItemViewHolder) holder).author.setText(weixinNewsList.get(position).getDescription());
+            ((ItemViewHolder) holder).date.setText(weixinNewsList.get(position).getCtime());
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

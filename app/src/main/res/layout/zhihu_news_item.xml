@@ -18,13 +18,14 @@
 
         <ImageView
             android:id="@+id/image"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/douban_default"
             android:layout_width="60dp"
             android:layout_height="60dp" />
 
         <TextView
             android:id="@+id/title"
             android:text="装逼成功是怎样一番体验？"
+            android:textColor="#333333"
             android:lineSpacingExtra="3dp"
             android:layout_marginLeft="6dp"
             android:layout_width="wrap_content"

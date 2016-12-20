@@ -18,7 +18,7 @@
 
         <ImageView
             android:id="@+id/image"
-            android:src="@drawable/image"
+            android:src="@drawable/douban_default"
             android:scaleType="centerCrop"
             android:layout_width="70dp"
             android:layout_height="60dp" />
@@ -32,6 +32,7 @@
             <TextView
                 android:id="@+id/title"
                 android:text="装逼成功是怎样一番体验？装逼成功是怎样一番体验？"
+                android:textColor="#333333"
                 android:maxLines="2"
                 android:ellipsize="end"
                 android:lineSpacingExtra="3dp"

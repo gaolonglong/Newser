@@ -77,13 +77,19 @@ public class DouBanNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof DouBanNewsAdapter.ItemViewHolder){
-            Glide.with(context)
-                    .load(doubanNewsList.get(position).getThumbs().get(0).getSmall().getUrl())
-                    .placeholder(R.drawable.image)
-                    .error(R.drawable.image)
-                    .into(((DouBanNewsAdapter.ItemViewHolder) holder).image);
-            ((DouBanNewsAdapter.ItemViewHolder) holder).title.setText(doubanNewsList.get(position).getTitle());
-            ((DouBanNewsAdapter.ItemViewHolder) holder).description.setText(doubanNewsList.get(position).getAbstractX());
+            if (doubanNewsList.get(position).getThumbs().size() == 0){
+                Glide.with(context)
+                        .load(R.drawable.douban_default)
+                        .into(((DouBanNewsAdapter.ItemViewHolder) holder).image);
+            }else {
+                Glide.with(context)
+                        .load(doubanNewsList.get(position).getThumbs().get(0).getSmall().getUrl())
+                        .placeholder(R.drawable.douban_default)
+                        .error(R.drawable.douban_default)
+                        .into(((ItemViewHolder) holder).image);
+            }
+            ((ItemViewHolder) holder).title.setText(doubanNewsList.get(position).getTitle());
+            ((ItemViewHolder) holder).description.setText(doubanNewsList.get(position).getAbstractX());
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
