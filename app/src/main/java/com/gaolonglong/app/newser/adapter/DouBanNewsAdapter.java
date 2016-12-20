@@ -82,13 +82,13 @@ public class DouBanNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (holder instanceof DouBanNewsAdapter.ItemViewHolder){
             if (doubanNewsList.get(position).getThumbs().size() == 0){
                 Glide.with(context)
-                        .load(R.drawable.douban_default)
+                        .load(R.drawable.douban_default_image)
                         .into(((DouBanNewsAdapter.ItemViewHolder) holder).image);
             }else {
                 Glide.with(context)
                         .load(doubanNewsList.get(position).getThumbs().get(0).getSmall().getUrl())
-                        .placeholder(R.drawable.douban_default)
-                        .error(R.drawable.douban_default)
+                        .placeholder(R.drawable.douban_default_image)
+                        .error(R.drawable.douban_default_image)
                         .into(((ItemViewHolder) holder).image);
             }
             ((ItemViewHolder) holder).title.setText(doubanNewsList.get(position).getTitle());

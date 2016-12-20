@@ -79,6 +79,8 @@ public class ZhiHuNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (holder instanceof ItemViewHolder){
             Glide.with(context)
                     .load(storiesBeanList.get(position).getImages().get(0))
+                    .placeholder(R.drawable.zhihu_default_image)
+                    .error(R.drawable.zhihu_default_image)
                     .into(((ItemViewHolder) holder).image);
             ((ItemViewHolder) holder).title.setText(storiesBeanList.get(position).getTitle());
 

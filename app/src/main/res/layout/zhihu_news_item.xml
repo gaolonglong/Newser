@@ -18,7 +18,7 @@
 
         <ImageView
             android:id="@+id/image"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/zhihu_default_image"
             android:layout_width="60dp"
             android:layout_height="60dp" />
 

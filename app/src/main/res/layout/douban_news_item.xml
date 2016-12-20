@@ -18,7 +18,7 @@
 
         <ImageView
             android:id="@+id/image"
-            android:src="@drawable/douban_default"
+            android:src="@drawable/douban_default_image"
             android:scaleType="centerCrop"
             android:layout_width="78dp"
             android:layout_height="65dp" />
