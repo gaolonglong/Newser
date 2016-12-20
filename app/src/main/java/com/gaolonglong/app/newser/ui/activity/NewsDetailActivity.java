@@ -1,6 +1,7 @@
 package com.gaolonglong.app.newser.ui.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -23,6 +24,7 @@ import com.gaolonglong.app.newser.bean.ZhiHuDetailNews;
 import com.gaolonglong.app.newser.presenter.NewsPresenter;
 import com.gaolonglong.app.newser.presenter.NewsPresenterImpl;
 import com.gaolonglong.app.newser.utils.BodyUtil;
+import com.gaolonglong.app.newser.utils.ShareUtil;
 import com.gaolonglong.app.newser.view.NewsView;
 import com.google.gson.Gson;
 
@@ -39,6 +41,8 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsView, S
     private WebView webView;
     private ImageView headImage;
     private FloatingActionButton fab;
+    private ZhiHuDetailNews zhiHuDetailNews;
+    private DouBanDetailNews douBanDetailNews;
     private int id;
     private String title;
     private String picUrl;
@@ -75,6 +79,10 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsView, S
             public void onClick(View v) {
                 if (id == 0){
 
+                }else if (id > 1000000){
+                    ShareUtil.shareText(NewsDetailActivity.this,"知乎日报：" + zhiHuDetailNews.getTitle() + " " + zhiHuDetailNews.getShare_url());
+                }else {
+                    ShareUtil.shareImage(NewsDetailActivity.this, Uri.parse(douBanDetailNews.getShare_pic_url()));
                 }
             }
         });
@@ -140,7 +148,7 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsView, S
     @Override
     public void addNews(String result) {
         if (id > 1000000){
-            ZhiHuDetailNews zhiHuDetailNews = gson.fromJson(result, ZhiHuDetailNews.class);
+            zhiHuDetailNews = gson.fromJson(result, ZhiHuDetailNews.class);
             Glide.with(this)
                     .load(zhiHuDetailNews.getImage())
                     .into(headImage);
@@ -149,7 +157,7 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsView, S
             String body = BodyUtil.convertBody(zhiHuDetailNews.getBody());
             webView.loadDataWithBaseURL("x-data://base", body, "text/html", "utf-8", null);
         }else {
-            DouBanDetailNews douBanDetailNews = gson.fromJson(result, DouBanDetailNews.class);
+            douBanDetailNews = gson.fromJson(result, DouBanDetailNews.class);
             if (douBanDetailNews.getThumbs().size() > 0){
                 Glide.with(this)
                         .load(douBanDetailNews.getThumbs().get(0).getLarge().getUrl())
