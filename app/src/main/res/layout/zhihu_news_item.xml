@@ -18,7 +18,7 @@
 
         <ImageView
             android:id="@+id/image"
-            android:src="@drawable/douban_default"
+            android:src="@mipmap/ic_launcher"
             android:layout_width="60dp"
             android:layout_height="60dp" />
 

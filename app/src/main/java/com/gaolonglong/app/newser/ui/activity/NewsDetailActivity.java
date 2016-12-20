@@ -16,6 +16,7 @@ import android.widget.ImageView;
 
 import com.gaolonglong.app.newser.R;
 import com.bumptech.glide.Glide;
+import com.gaolonglong.app.newser.bean.DouBanDetailNews;
 import com.gaolonglong.app.newser.bean.ZhiHuDetailNews;
 import com.gaolonglong.app.newser.presenter.NewsPresenter;
 import com.gaolonglong.app.newser.presenter.NewsPresenterImpl;
@@ -105,7 +106,13 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsView, S
     }
 
     private void onLoadNewsDetail(int id) {
-        newsPresenter.loadNews(this, "zhihu", id);
+        String type;
+        if (id > 1000000){
+            type = "zhihu";
+        }else {
+            type = "douban";
+        }
+        newsPresenter.loadNews(this, type, id);
     }
 
     @Override
@@ -119,14 +126,26 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsView, S
 
     @Override
     public void addNews(String result) {
-        ZhiHuDetailNews zhiHuDetailNews = gson.fromJson(result, ZhiHuDetailNews.class);
-        Glide.with(this)
-                .load(zhiHuDetailNews.getImage())
-                .into(headImage);
-        collapsingToolbar.setTitle(zhiHuDetailNews.getTitle());
+        if (id > 1000000){
+            ZhiHuDetailNews zhiHuDetailNews = gson.fromJson(result, ZhiHuDetailNews.class);
+            Glide.with(this)
+                    .load(zhiHuDetailNews.getImage())
+                    .into(headImage);
+            collapsingToolbar.setTitle(zhiHuDetailNews.getTitle());
 
-        String body = BodyUtil.convertBody(zhiHuDetailNews.getBody());
-        webView.loadDataWithBaseURL("x-data://base", body, "text/html", "utf-8", null);
+            String body = BodyUtil.convertBody(zhiHuDetailNews.getBody());
+            webView.loadDataWithBaseURL("x-data://base", body, "text/html", "utf-8", null);
+        }else {
+            DouBanDetailNews douBanDetailNews = gson.fromJson(result, DouBanDetailNews.class);
+            if (douBanDetailNews.getThumbs().size() > 0){
+                Glide.with(this)
+                        .load(douBanDetailNews.getThumbs().get(0).getLarge().getUrl())
+                .into(headImage);
+            }
+            collapsingToolbar.setTitle(douBanDetailNews.getTitle());
+            String content = BodyUtil.convertContent(douBanDetailNews);
+            webView.loadDataWithBaseURL("x-data://base", content, "text/html", "utf-8", null);
+        }
     }
 
     @Override

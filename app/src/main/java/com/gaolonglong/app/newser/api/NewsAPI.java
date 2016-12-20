@@ -20,4 +20,5 @@ public class NewsAPI {
      * 豆瓣api
      */
     public static final String DOUBAN_NEWS = "https://moment.douban.com/api/stream/date/";
+    public static final String DOUBAN_NEWS_DETAIL = "https://moment.douban.com/api/post/";
 }
