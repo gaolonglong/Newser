@@ -82,7 +82,7 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsView, S
                 }else if (id > 1000000){
                     ShareUtil.shareText(NewsDetailActivity.this,"知乎日报：" + zhiHuDetailNews.getTitle() + " " + zhiHuDetailNews.getShare_url());
                 }else {
-                    ShareUtil.shareImage(NewsDetailActivity.this, Uri.parse(douBanDetailNews.getShare_pic_url()));
+                    ShareUtil.getInstance().shareImage(NewsDetailActivity.this, douBanDetailNews.getShare_pic_url());
                 }
             }
         });
