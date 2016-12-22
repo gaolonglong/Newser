@@ -1,7 +1,6 @@
 package com.gaolonglong.app.newser.ui.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -16,14 +15,16 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-import com.gaolonglong.app.newser.R;
 import com.bumptech.glide.Glide;
+import com.gaolonglong.app.newser.R;
 import com.gaolonglong.app.newser.bean.DouBanDetailNews;
 import com.gaolonglong.app.newser.bean.ZhiHuDetailNews;
 import com.gaolonglong.app.newser.presenter.NewsPresenter;
 import com.gaolonglong.app.newser.presenter.NewsPresenterImpl;
 import com.gaolonglong.app.newser.utils.BodyUtil;
+import com.gaolonglong.app.newser.utils.NetworkUtil;
 import com.gaolonglong.app.newser.utils.ShareUtil;
 import com.gaolonglong.app.newser.view.NewsView;
 import com.google.gson.Gson;
@@ -77,12 +78,17 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsView, S
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (id == 0){
-
-                }else if (id > 1000000){
-                    ShareUtil.shareText(NewsDetailActivity.this,"知乎日报：" + zhiHuDetailNews.getTitle() + " " + zhiHuDetailNews.getShare_url());
+                //先判断网络情况，在进行分享
+                if (NetworkUtil.isNetworkConnected(NewsDetailActivity.this)){
+                    if (id == 0){
+                        ShareUtil.shareText(NewsDetailActivity.this,"微信精选：" + title + " " + url);
+                    }else if (id > 1000000){
+                        ShareUtil.shareText(NewsDetailActivity.this,"知乎日报：" + zhiHuDetailNews.getTitle() + " " + zhiHuDetailNews.getShare_url());
+                    }else {
+                        ShareUtil.shareImage(NewsDetailActivity.this, douBanDetailNews.getShare_pic_url());
+                    }
                 }else {
-                    ShareUtil.shareImage(NewsDetailActivity.this, douBanDetailNews.getShare_pic_url());
+                    Toast.makeText(NewsDetailActivity.this,"连接WIFI再进行分享吧！",Toast.LENGTH_SHORT).show();
                 }
             }
         });
