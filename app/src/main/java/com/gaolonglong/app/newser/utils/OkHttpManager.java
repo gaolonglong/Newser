@@ -1,13 +1,16 @@
 package com.gaolonglong.app.newser.utils;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
 import com.gaolonglong.app.newser.model.NewsModelImpl;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
@@ -59,6 +62,48 @@ public class OkHttpManager {
             cacheDir.mkdirs();
         }
         return new Cache(cacheDir,cacheSize);
+    }
+
+    public Uri getImageUri(String url){
+        //图片缓存路径和名称处理
+        final String imgDir = Environment.getExternalStorageDirectory().getPath() + "/newser" + "/douban";
+        String imageName = url.substring(url.lastIndexOf("/") + 1);
+        //创建文件路径
+        File fileDir = new File(imgDir);
+        if (!fileDir.exists()){
+            fileDir.mkdirs();
+        }
+        //创建文件
+        final File imageFile = new File(fileDir, imageName);
+        //如果存在文件直接返回图片uri，不再下载
+        if (imageFile.exists()){
+            return Uri.fromFile(imageFile);
+        }
+
+        Request request = new Request.Builder().get().url(url).build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                InputStream is;
+                byte[] bytes = new byte[1024];
+                int len;
+                FileOutputStream fos;
+
+                is = response.body().byteStream();
+                fos = new FileOutputStream(imageFile);
+                while ((len = is.read(bytes)) != -1){
+                    fos.write(bytes,0,len);
+                }
+                fos.flush();
+                is.close();
+                fos.close();
+            }
+        });
+        return Uri.fromFile(imageFile);
     }
 
     public void getLoadData(final Activity activity, String url, final NewsModelImpl.OnLoadNewsListListener listener){
