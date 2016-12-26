@@ -13,6 +13,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:padding="10dp"
+        android:background="?attr/cardColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -32,7 +33,7 @@
             <TextView
                 android:id="@+id/title"
                 android:text="装逼成功是怎样一番体验？装逼成功是怎样一番体验？"
-                android:textColor="#333333"
+                android:textColor="?attr/textColor"
                 android:maxLines="2"
                 android:ellipsize="end"
                 android:lineSpacingExtra="3dp"

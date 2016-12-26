@@ -1,11 +1,28 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="textColor">@color/textColor_day</item>
+        <item name="cardColor">@color/cardColor_day</item>
+        <item name="footerColor">@color/footerColor_day</item>
+        <item name="recyclerColor">@color/recyclerColor_day</item>
+    </style>
+
+    <style name="AppThemeNight" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary_night</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_night</item>
+        <item name="colorAccent">@color/colorAccent_night</item>
+
+        <item name="textColor">@color/textColor_night</item>
+        <item name="cardColor">@color/cardColor_night</item>
+        <item name="footerColor">@color/footerColor_night</item>
+        <item name="recyclerColor">@color/recyclerColor_night</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

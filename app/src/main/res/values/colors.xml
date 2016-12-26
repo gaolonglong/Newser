@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimary_night">#263238</color>
     <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDark_night">#1E282D</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent_night">#1f4859</color>
+
+    <color name="textColor_day">#333333</color>
+    <color name="textColor_night">#a3abae</color>
+    <color name="cardColor_day">#FFFFFF</color>
+    <color name="cardColor_night">#495d66</color>
+    <color name="footerColor_day">#FFFFFF</color>
+    <color name="footerColor_night">#495d66</color>
+    <color name="recyclerColor_day">#EEEEEE</color>
+    <color name="recyclerColor_night">#37474f</color>
 </resources>

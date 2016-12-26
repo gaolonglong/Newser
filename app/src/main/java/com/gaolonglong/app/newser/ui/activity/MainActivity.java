@@ -17,6 +17,7 @@ import com.gaolonglong.app.newser.R;
 import com.gaolonglong.app.newser.ui.fragment.DouBanFragment;
 import com.gaolonglong.app.newser.ui.fragment.WeiXinFragment;
 import com.gaolonglong.app.newser.ui.fragment.ZhiHuFragment;
+import com.gaolonglong.app.newser.utils.ThemeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements ZhiHuFragment.OnF
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ThemeUtil.setAppTheme(this);
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -104,10 +106,17 @@ public class MainActivity extends AppCompatActivity implements ZhiHuFragment.OnF
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }else if (id == R.id.action_change_theme){
+            if (ThemeUtil.isNightTheme){
+                ThemeUtil.changeAppTheme(this, ThemeUtil.DAY_THEME);
+                ThemeUtil.isNightTheme = false;
+            }else {
+                ThemeUtil.changeAppTheme(this, ThemeUtil.NIGHT_THEME);
+                ThemeUtil.isNightTheme = true;
+            }
         }
 
         return super.onOptionsItemSelected(item);
