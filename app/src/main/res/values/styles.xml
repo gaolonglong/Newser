@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="textColor">@color/textColor_day</item>
+        <item name="descriptionTextColor">@color/desTextColor_day</item>
         <item name="cardColor">@color/cardColor_day</item>
         <item name="footerColor">@color/footerColor_day</item>
         <item name="recyclerColor">@color/recyclerColor_day</item>
@@ -20,6 +21,7 @@
         <item name="colorAccent">@color/colorAccent_night</item>
 
         <item name="textColor">@color/textColor_night</item>
+        <item name="descriptionTextColor">@color/desTextColor_night</item>
         <item name="cardColor">@color/cardColor_night</item>
         <item name="footerColor">@color/footerColor_night</item>
         <item name="recyclerColor">@color/recyclerColor_night</item>

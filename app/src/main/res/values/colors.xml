@@ -8,7 +8,9 @@
     <color name="colorAccent_night">#1f4859</color>
 
     <color name="textColor_day">#333333</color>
-    <color name="textColor_night">#a3abae</color>
+    <color name="textColor_night">#aab1b4</color>
+    <color name="desTextColor_day">#767575</color>
+    <color name="desTextColor_night">#8e989c</color>
     <color name="cardColor_day">#FFFFFF</color>
     <color name="cardColor_night">#495d66</color>
     <color name="footerColor_day">#FFFFFF</color>

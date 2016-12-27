@@ -48,6 +48,7 @@
                 <TextView
                     android:id="@+id/author"
                     android:text="微信精选"
+                    android:textColor="?attr/descriptionTextColor"
                     android:textSize="12sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -56,6 +57,7 @@
                     android:id="@+id/date"
                     android:text="2016-12-16"
                     android:textSize="12sp"
+                    android:textColor="?attr/descriptionTextColor"
                     android:layout_alignParentRight="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

@@ -43,6 +43,7 @@
             <TextView
                 android:id="@+id/description"
                 android:text="装逼成功是怎样一番体验？装逼成功是怎样一番体验？装逼成功是怎样一番体验？"
+                android:textColor="?attr/descriptionTextColor"
                 android:maxLines="2"
                 android:ellipsize="end"
                 android:gravity="bottom"
