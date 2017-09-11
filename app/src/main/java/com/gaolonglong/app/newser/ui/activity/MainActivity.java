@@ -1,5 +1,8 @@
 package com.gaolonglong.app.newser.ui.activity;
 
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -17,11 +20,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.gaolonglong.app.newser.R;
 import com.gaolonglong.app.newser.ui.fragment.DouBanFragment;
 import com.gaolonglong.app.newser.ui.fragment.WeiXinFragment;
 import com.gaolonglong.app.newser.ui.fragment.ZhiHuFragment;
+import com.gaolonglong.app.newser.utils.ShareUtil;
 import com.gaolonglong.app.newser.utils.ThemeUtil;
 
 import java.util.ArrayList;
@@ -43,6 +50,20 @@ public class MainActivity extends AppCompatActivity
         ThemeUtil.setAppTheme(this);
         setContentView(R.layout.activity_main);
 
+        //最终方案
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        //5.0 全透明实现
+        //getWindow.setStatusBarColor(Color.TRANSPARENT)
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            //4.4 全透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -63,6 +84,13 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            //将侧边栏顶部延伸至status bar
+            drawer.setFitsSystemWindows(true);
+            //将主页面顶部延伸至status bar;虽默认为false,但经测试,DrawerLayout需显示设置
+            drawer.setClipToPadding(false);
+        }
 
         initView();
 
@@ -153,18 +181,18 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.home) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
+        } else if (id == R.id.favorite) {
+            startActivity(new Intent(this,FavoriteActivity.class));
+        } else if (id == R.id.chang_skin) {
+            Toast.makeText(this,"换肤",Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.setting) {
+            Toast.makeText(this,"设置",Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+            ShareUtil.shareText(this, "Newser聚合阅读APP，带你发现更大的世界！下载地址：http://www.xxxx.com");
+        } else if (id == R.id.nav_about) {
+            Toast.makeText(this,"关于",Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

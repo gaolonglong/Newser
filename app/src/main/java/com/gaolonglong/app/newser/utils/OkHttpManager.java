@@ -32,28 +32,28 @@ public class OkHttpManager {
     private OkHttpClient okHttpClient;
     private static OkHttpManager instance;
 
-    private OkHttpManager() {
+    private OkHttpManager(Activity activity) {
 
         okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(10,TimeUnit.SECONDS)
                 .readTimeout(10,TimeUnit.SECONDS)
                 .addInterceptor(new CacheInterceptor())
-                .cache(getCacheConfig())
+                .cache(getCacheConfig(activity))
                 .build();
     }
 
-    public static OkHttpManager getInstance(){
+    public static OkHttpManager getInstance(Activity activity){
         if (instance == null){
             synchronized (OkHttpManager.class){
                 if (instance == null){
-                    instance = new OkHttpManager();
+                    instance = new OkHttpManager(activity);
                 }
             }
         }
         return instance;
     }
 
-    private Cache getCacheConfig(){
+    private Cache getCacheConfig(Activity activity){
         int cacheSize = 10 * 1024 * 1024;
         String cachePath = Environment.getExternalStorageDirectory().getPath() + "/newser" + "/cache";
 
@@ -61,7 +61,7 @@ public class OkHttpManager {
         if (!cacheDir.exists()){
             cacheDir.mkdirs();
         }
-        return new Cache(cacheDir,cacheSize);
+        return new Cache(activity.getCacheDir(),cacheSize);
     }
 
     public Uri getImageUri(String url){

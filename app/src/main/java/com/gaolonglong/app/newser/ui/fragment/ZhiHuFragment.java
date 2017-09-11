@@ -10,6 +10,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.gaolonglong.app.newser.presenter.NewsPresenter;
 import com.gaolonglong.app.newser.presenter.NewsPresenterImpl;
 import com.gaolonglong.app.newser.view.NewsView;
 import com.google.gson.Gson;
+import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +31,13 @@ import java.util.List;
  * Created by gaohailong on 2016/12/14.
  */
 
-public class ZhiHuFragment extends Fragment implements NewsView, SwipeRefreshLayout.OnRefreshListener{
+public class ZhiHuFragment extends Fragment implements NewsView, SwipeRefreshLayout.OnRefreshListener, OnBannerListener {
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ZhiHuNewsAdapter zhiHuNewsAdapter;
     private List<ZhiHuNews.StoriesBean> storiesBeanList;
+    private List<ZhiHuNews.TopStoriesBean> topStoriesBeanList;
     private NewsPresenter newsPresenter;
     private Gson gson;
     private int lastVisibleItemPos;
@@ -72,15 +75,17 @@ public class ZhiHuFragment extends Fragment implements NewsView, SwipeRefreshLay
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
 
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPos + 1 == zhiHuNewsAdapter.getItemCount()){
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPos + 1 == zhiHuNewsAdapter.getItemCount()) {
+                    Log.e("233",zhiHuNewsAdapter.getItemCount()+"---"+lastVisibleItemPos);
                     page++;
+                    topStoriesBeanList.clear();
                     onLoadMoreData();
 
                     new Handler().postDelayed(new Runnable() {
@@ -96,7 +101,7 @@ public class ZhiHuFragment extends Fragment implements NewsView, SwipeRefreshLay
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 // 隐藏或者显示fab
-                if(dy > 0) {
+                if (dy > 0) {
                     //fab.hide();
                     onFabShowListener.isShow(false);
                 } else {
@@ -126,19 +131,30 @@ public class ZhiHuFragment extends Fragment implements NewsView, SwipeRefreshLay
 
     @Override
     public void addNews(String result) {
-        if (storiesBeanList == null){
+        if (storiesBeanList == null) {
             storiesBeanList = new ArrayList<>();
+            topStoriesBeanList = new ArrayList<>();
         }
         ZhiHuNews zhiHuNews = gson.fromJson(result, ZhiHuNews.class);
-        if (page == 0){
+        if (page == 0) {
             storiesBeanList.clear();
+            topStoriesBeanList.clear();
         }
         storiesBeanList.addAll(zhiHuNews.getStories());
-
-        if (page == 0){
-            zhiHuNewsAdapter = new ZhiHuNewsAdapter(getContext(),storiesBeanList);
+        if (zhiHuNews.getTop_stories() != null){
+            topStoriesBeanList.clear();
+            topStoriesBeanList.addAll(zhiHuNews.getTop_stories());
+        }
+        //日报列表
+        if (page == 0) {
+            zhiHuNewsAdapter = new ZhiHuNewsAdapter(getContext(), storiesBeanList, topStoriesBeanList);
             recyclerView.setAdapter(zhiHuNewsAdapter);
         }
+    }
+
+    @Override
+    public void OnBannerClick(int position) {
+
     }
 
     @Override
@@ -153,10 +169,10 @@ public class ZhiHuFragment extends Fragment implements NewsView, SwipeRefreshLay
 
     @Override
     public void showErrorMsg(String msg) {
-        Snackbar.make(recyclerView,msg,Snackbar.LENGTH_LONG).show();
+        Snackbar.make(recyclerView, msg, Snackbar.LENGTH_LONG).show();
     }
 
-    public interface OnFabShowListener{
+    public interface OnFabShowListener {
         void isShow(boolean show);
     }
 

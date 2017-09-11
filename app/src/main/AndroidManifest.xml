@@ -28,6 +28,7 @@
             android:name=".ui.activity.NewsDetailActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name=".ui.activity.FavoriteActivity"/>
     </application>
 
 </manifest>

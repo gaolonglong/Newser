@@ -1,5 +1,6 @@
 package com.gaolonglong.app.newser.utils;
 
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -24,7 +25,7 @@ public class ShareUtil {
 
     public static void shareImage(Context context, String url){
 
-        Uri uri = OkHttpManager.getInstance().getImageUri(url);
+        Uri uri = OkHttpManager.getInstance((Activity) context).getImageUri(url);
         context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,uri));
 
         Intent intent = new Intent(Intent.ACTION_SEND);

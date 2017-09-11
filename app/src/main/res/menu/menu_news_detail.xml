@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.gaolonglong.app.newser.ui.activity.MainActivity">
+    <item
+        android:id="@+id/action_open_in_browser"
+        android:orderInCategory="100"
+        android:title="在浏览器打开"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_copy_url"
+        android:orderInCategory="98"
+        android:title="复制链接"
+        app:showAsAction="never" />
+
+</menu>

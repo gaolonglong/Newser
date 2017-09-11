@@ -12,7 +12,7 @@ public class NewsModelImpl implements NewsModel {
 
     @Override
     public void loadNews(Activity activity, String url, final OnLoadNewsListListener listener) {
-        OkHttpManager.getInstance().getLoadData(activity,url,listener);
+        OkHttpManager.getInstance(activity).getLoadData(activity,url,listener);
     }
 
     public interface OnLoadNewsListListener{

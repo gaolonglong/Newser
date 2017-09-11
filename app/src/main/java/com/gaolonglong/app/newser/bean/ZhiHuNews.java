@@ -57,6 +57,14 @@ public class ZhiHuNews {
         private String title;
         private List<String> images;
 
+        public StoriesBean(int type, int id, String ga_prefix, String title, List<String> images) {
+            this.type = type;
+            this.id = id;
+            this.ga_prefix = ga_prefix;
+            this.title = title;
+            this.images = images;
+        }
+
         public int getType() {
             return type;
         }
