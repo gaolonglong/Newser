@@ -1,5 +1,6 @@
 package com.gaolonglong.app.newser.ui.activity;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -22,24 +23,29 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.gaolonglong.app.newser.R;
 import com.gaolonglong.app.newser.ui.fragment.DouBanFragment;
+import com.gaolonglong.app.newser.ui.fragment.ThemeDialogFragment;
 import com.gaolonglong.app.newser.ui.fragment.WeiXinFragment;
 import com.gaolonglong.app.newser.ui.fragment.ZhiHuFragment;
 import com.gaolonglong.app.newser.utils.ShareUtil;
+import com.gaolonglong.app.newser.utils.SharedPrefUtil;
 import com.gaolonglong.app.newser.utils.ThemeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements ZhiHuFragment.OnFabShowListener, NavigationView.OnNavigationItemSelectedListener {
+        implements ZhiHuFragment.OnFabShowListener, NavigationView.OnNavigationItemSelectedListener,ThemeDialogFragment.OnChangeThemeListener {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private FloatingActionButton fab;
+    private Toolbar toolbar;
+    private LinearLayout navHeaderLL;
     private List<Fragment> fragmentList;
     private String[] titles = {"知乎","微信","豆瓣"};
     private Fragment[] fragments = {new ZhiHuFragment(),new WeiXinFragment(),new DouBanFragment()};
@@ -64,7 +70,7 @@ public class MainActivity extends AppCompatActivity
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -85,15 +91,15 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            //将侧边栏顶部延伸至status bar
-            drawer.setFitsSystemWindows(true);
-            //将主页面顶部延伸至status bar;虽默认为false,但经测试,DrawerLayout需显示设置
-            drawer.setClipToPadding(false);
-        }
+        View nav_header = navigationView.inflateHeaderView(R.layout.nav_header_main);
+        navHeaderLL = nav_header.findViewById(R.id.nav_header_ll);
 
         initView();
 
+        List<Integer> colorList = SharedPrefUtil.getThemeColor(this);
+        if (colorList != null && colorList.get(0) != 0 && colorList.get(1) != 0){
+            onChangeTheme(colorList.get(0),colorList.get(1));
+        }
     }
 
     private void initView() {
@@ -134,6 +140,15 @@ public class MainActivity extends AppCompatActivity
         }else {
             fab.hide();
         }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onChangeTheme(int colorPrimaryDark, int colorPrimary) {
+        toolbar.setBackgroundColor(colorPrimary);
+        tabLayout.setBackgroundColor(colorPrimary);
+        navHeaderLL.setBackgroundColor(colorPrimary);
+        getWindow().setStatusBarColor(colorPrimaryDark);
     }
 
     @Override
@@ -186,7 +201,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.favorite) {
             startActivity(new Intent(this,FavoriteActivity.class));
         } else if (id == R.id.chang_skin) {
-            Toast.makeText(this,"换肤",Toast.LENGTH_SHORT).show();
+            ThemeDialogFragment dialogFragment = new ThemeDialogFragment();
+            dialogFragment.show(getSupportFragmentManager(),"ThemeDialog");
         } else if (id == R.id.setting) {
             Toast.makeText(this,"设置",Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_share) {
@@ -199,4 +215,5 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

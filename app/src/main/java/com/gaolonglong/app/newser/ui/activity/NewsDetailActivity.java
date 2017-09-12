@@ -77,6 +77,7 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsView, S
             picUrl = intent.getStringExtra("picUrl");
             url = intent.getStringExtra("url");
 
+            type = "weixin";
             addNews(title, picUrl, url);
         }
 

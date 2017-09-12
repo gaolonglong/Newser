@@ -17,4 +17,23 @@
     <color name="footerColor_night">#495d66</color>
     <color name="recyclerColor_day">#EEEEEE</color>
     <color name="recyclerColor_night">#37474f</color>
+
+    <color name="color_10">#7B1FA2</color>
+    <color name="color_11">#9C27B0</color>
+    <color name="color_20">#512DA8</color>
+    <color name="color_21">#673AB6</color>
+    <color name="color_30">#C1185B</color>
+    <color name="color_31">#E81E63</color>
+    <color name="color_40">#00796B</color>
+    <color name="color_41">#009688</color>
+    <color name="color_50">#388E3C</color>
+    <color name="color_51">#4CAF50</color>
+    <color name="color_60">#5D4037</color>
+    <color name="color_61">#795548</color>
+    <color name="color_70">#455A64</color>
+    <color name="color_71">#607D8B</color>
+    <color name="color_80">#F47C00</color>
+    <color name="color_81">#FE9800</color>
+    <color name="color_90">#AFB42B</color>
+    <color name="color_91">#CCDB39</color>
 </resources>
