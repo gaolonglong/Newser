@@ -28,9 +28,11 @@ public class ThemeUtil {
         switch (mThemeType){
             case DAY_THEME:
                 activity.setTheme(R.style.AppTheme);
+                SharedPrefUtil.setNightTag(activity,false);
                 break;
             case NIGHT_THEME:
                 activity.setTheme(R.style.AppThemeNight);
+                SharedPrefUtil.setNightTag(activity,true);
                 break;
             default:
                 activity.setTheme(R.style.AppTheme);

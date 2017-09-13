@@ -40,4 +40,28 @@ public class SharedPrefUtil {
         colorList.add(colorPref.getInt("colorPrimary",0));
         return colorList;
     }
+
+    public static void setNightTag(Activity activity,boolean isNight){
+        SharedPreferences nightPref = activity.getSharedPreferences("nightPref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = nightPref.edit();
+        edit.putBoolean("isNight", isNight);
+        edit.commit();
+    }
+
+    public static boolean getNightTag(Activity activity){
+        SharedPreferences nightPref = activity.getSharedPreferences("nightPref", Context.MODE_PRIVATE);
+        return nightPref.getBoolean("isNight",false);
+    }
+
+    public static void setCacheTag(Activity activity,boolean isCache){
+        SharedPreferences cachePref = activity.getSharedPreferences("cachePref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = cachePref.edit();
+        edit.putBoolean("isCache", isCache);
+        edit.commit();
+    }
+
+    public static boolean getCacheTag(Activity activity){
+        SharedPreferences cachePref = activity.getSharedPreferences("cachePref", Context.MODE_PRIVATE);
+        return cachePref.getBoolean("isCache",false);
+    }
 }

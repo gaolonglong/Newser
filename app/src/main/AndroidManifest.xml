@@ -29,6 +29,8 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity android:name=".ui.activity.FavoriteActivity"/>
+        <activity android:name=".ui.activity.SettingActivity"/>
+
     </application>
 
 </manifest>

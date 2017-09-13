@@ -11,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +33,8 @@ import com.gaolonglong.app.newser.utils.ShareUtil;
 import com.gaolonglong.app.newser.utils.SharedPrefUtil;
 import com.gaolonglong.app.newser.view.NewsView;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 /**
  * Created by gaohailong on 2016/12/5.
@@ -254,5 +257,6 @@ public class NewsDetailActivity extends AppCompatActivity implements NewsView, S
 
         return super.onOptionsItemSelected(item);
     }
+
 }
 

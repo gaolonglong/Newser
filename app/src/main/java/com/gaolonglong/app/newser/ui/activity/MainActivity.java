@@ -98,7 +98,9 @@ public class MainActivity extends AppCompatActivity
 
         List<Integer> colorList = SharedPrefUtil.getThemeColor(this);
         if (colorList != null && colorList.get(0) != 0 && colorList.get(1) != 0){
-            onChangeTheme(colorList.get(0),colorList.get(1));
+            if (!SharedPrefUtil.getNightTag(this)){
+                onChangeTheme(colorList.get(0),colorList.get(1));
+            }
         }
     }
 
@@ -204,7 +206,7 @@ public class MainActivity extends AppCompatActivity
             ThemeDialogFragment dialogFragment = new ThemeDialogFragment();
             dialogFragment.show(getSupportFragmentManager(),"ThemeDialog");
         } else if (id == R.id.setting) {
-            Toast.makeText(this,"设置",Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this,SettingActivity.class));
         } else if (id == R.id.nav_share) {
             ShareUtil.shareText(this, "Newser聚合阅读APP，带你发现更大的世界！下载地址：http://www.xxxx.com");
         } else if (id == R.id.nav_about) {
