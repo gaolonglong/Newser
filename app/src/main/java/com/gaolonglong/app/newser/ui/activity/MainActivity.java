@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements ZhiHuFragment.OnFabShowListener, NavigationView.OnNavigationItemSelectedListener,ThemeDialogFragment.OnChangeThemeListener {
+        implements NavigationView.OnNavigationItemSelectedListener,ThemeDialogFragment.OnChangeThemeListener {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity
     private List<Fragment> fragmentList;
     private String[] titles = {"知乎","微信","豆瓣"};
     private Fragment[] fragments = {new ZhiHuFragment(),new WeiXinFragment(),new DouBanFragment()};
+    private OnFabShowListener onFabShowListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +78,8 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                ZhiHuFragment zhiHuFragment = new ZhiHuFragment();
+                zhiHuFragment.recyclerToTop();
             }
         });
 
@@ -133,15 +134,6 @@ public class MainActivity extends AppCompatActivity
         });
 
         tabLayout.setupWithViewPager(viewPager);
-    }
-
-    @Override
-    public void isShow(boolean show) {
-        if (show){
-            fab.show();
-        }else {
-            fab.hide();
-        }
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -210,12 +202,16 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_share) {
             ShareUtil.shareText(this, "Newser聚合阅读APP，带你发现更大的世界！下载地址：http://www.xxxx.com");
         } else if (id == R.id.nav_about) {
-            Toast.makeText(this,"关于",Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this,AboutActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public interface OnFabShowListener {
+        void isShow(boolean show);
     }
 
 }

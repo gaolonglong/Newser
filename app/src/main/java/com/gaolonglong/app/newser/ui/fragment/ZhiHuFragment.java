@@ -24,8 +24,6 @@ import com.gaolonglong.app.newser.adapter.ZhiHuNewsAdapter;
 import com.gaolonglong.app.newser.bean.ZhiHuNews;
 import com.gaolonglong.app.newser.presenter.NewsPresenter;
 import com.gaolonglong.app.newser.presenter.NewsPresenterImpl;
-import com.gaolonglong.app.newser.ui.activity.NewsDetailActivity;
-import com.gaolonglong.app.newser.ui.activity.SettingActivity;
 import com.gaolonglong.app.newser.utils.NetworkUtil;
 import com.gaolonglong.app.newser.view.NewsView;
 import com.google.gson.Gson;
@@ -50,17 +48,10 @@ public class ZhiHuFragment extends Fragment implements NewsView, SwipeRefreshLay
     private int lastVisibleItemPos;
     private int page;
     private String type;
-    private OnFabShowListener onFabShowListener;
     private ArrayList<Integer> idList;
     private IntentFilter intentFilter;
     private OfflineCacheReceiver2 offlineCacheReceiver2;
     private boolean isOfflineCache;
-
-    @Override
-    public void onAttach(Context context) {
-        onFabShowListener = (OnFabShowListener) context;
-        super.onAttach(context);
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -118,16 +109,19 @@ public class ZhiHuFragment extends Fragment implements NewsView, SwipeRefreshLay
                 // 隐藏或者显示fab
                 if (dy > 0) {
                     //fab.hide();
-                    onFabShowListener.isShow(false);
                 } else {
                     //fab.show();
-                    onFabShowListener.isShow(true);
                 }
                 lastVisibleItemPos = layoutManager.findLastVisibleItemPosition();
             }
         });
 
         onLoadRefreshData();
+    }
+
+    public void recyclerToTop(){
+        Log.e("666","222223");
+        //recyclerView.scrollToPosition(3);
     }
 
     private void onLoadRefreshData() {
@@ -219,10 +213,6 @@ public class ZhiHuFragment extends Fragment implements NewsView, SwipeRefreshLay
     @Override
     public void showErrorMsg(String msg) {
         Snackbar.make(recyclerView, msg, Snackbar.LENGTH_LONG).show();
-    }
-
-    public interface OnFabShowListener {
-        void isShow(boolean show);
     }
 
 }
