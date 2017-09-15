@@ -27,6 +27,28 @@
         <item name="recyclerColor">@color/recyclerColor_night</item>
     </style>
 
+    <style name="dialog" parent="@android:style/Theme.Dialog">
+        <!--提示框是否有边框-->
+        <item name="android:windowFrame">@null</item>
+        <!--提示框是否是浮动的-->
+        <item name="android:windowIsFloating">true</item>
+        <!--提示框是滞是透明的-->
+        <item name="android:windowIsTranslucent">false</item>
+        <!--提示框是否有标题-->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">#7f000000</item>
+        <!--提示框的背景颜色是什么-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--是否充许对话框的背景变暗。为true则充许变暗-->
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <!--底部对话框弹出和退出动画-->
+    <style name="style_bottom_dlg_anim" mce_bogus="1" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
+    </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

@@ -18,6 +18,9 @@
     <color name="recyclerColor_day">#EEEEEE</color>
     <color name="recyclerColor_night">#37474f</color>
 
+    <color name="white">#FFFFFF</color>
+    <color name="black">#161b1e</color>
+
     <color name="color_10">#7B1FA2</color>
     <color name="color_11">#9C27B0</color>
     <color name="color_20">#512DA8</color>
