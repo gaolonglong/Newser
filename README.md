@@ -1,6 +1,6 @@
-# Banner
-使用ViewPager实现Android广告位轮播图，可以无限轮播，支持点击和加载网络图片，支持图片底部显示图片说明文字等。
-（Banner参考百度Android工程师任玉刚写的DEMO，但在实际项目中，图片一般来自网络，故加之）
+# Newser
+Newser是一个集知乎日报、微信精选、豆瓣一刻的聚合性的Android阅读客户端，提供精选内容的阅读、本地收藏、分享、简单换肤、夜间模式和离线缓存等功能。
+增长姿势水平。
 
 
 Libs：
@@ -8,17 +8,12 @@ Libs：
 
 使用的开源库
 ``` java
-  compile 'com.mcxiaoke.volley:library:1.0.19'
-  compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-  compile 'com.google.code.gson:gson:2.6.2'
+  okhttp
+  glide
+  banner
+  等。。。
 ```
-
-Weibo：
-------------
-
-[![微博]](http://weibo.com/hlgao1935)  
-[微博]:https://github.com/gaolonglong/Banner/raw/master/Screenshot/weibo_logo.png "新浪微博" 
 
 Screenshot：
 ------------
-![](https://github.com/gaolonglong/Banner/raw/master/Screenshot/666.gif)
+![](https://github.com/gaolonglong/Newser/blob/master/Screenshot/233.gif)
